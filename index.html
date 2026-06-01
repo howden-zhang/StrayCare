@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流浪動物認養與志工預約系統</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1E3A8A; 
+            --bg-color: #F9FAFB;      
+            --accent-success: #198754;
+            --accent-warning: #f59e0b;
+        }
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Helvetica Neue', Arial, "Noto Sans TC", sans-serif;
+            color: #333333;
+        }
+        .navbar {
+            background-color: var(--primary-color) !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 0 0 2rem 2rem;
+        }
+        .card-animal {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-animal:hover {
+            transform: translateY(-5px);
+        }
+        .nav-tabs .nav-link.active {
+            background-color: var(--primary-color);
+            color: white !important;
+        }
+        .info-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background: #ffffff;
+        }
+        .step-badge {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" aria-label="主要導覽">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#" onclick="switchPage('home')">
+                🐾 <span class="ms-2 fw-bold">溫暖窩心動物媒合平台</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切換導覽功能">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" id="nav-home" href="#" onclick="switchPage('home')">首頁</a></li>
+                    <li class="nav-item"><a class="nav-link" id="nav-front" href="#" onclick="switchPage('front')">動物查詢與預約</a></li>
+                    <li class="nav-item"><a class="nav-link" id="nav-volunteer" href="#" onclick="switchPage('volunteer')">志工招募與說明</a></li>
+                    <li class="nav-item"><a class="nav-link" id="nav-contact" href="#" onclick="switchPage('contact')">聯繫我們</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-light btn-sm ms-lg-3 px-3 mt-2 mt-lg-0" href="#" onclick="switchPage('back-login')">管理員登入</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主內容量體 -->
+    <main class="container my-4">
+        
+        <!-- 首頁區塊 -->
+        <section id="page-home" class="page-section">
+            <div class="hero-section text-center mb-5">
+                <h1 class="display-4 fw-bold">給流浪的牠，一個溫暖的家</h1>
+                <p class="lead">打造溫暖、專業、安全、令人安心的動物福利平台</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <button class="btn btn-warning btn-lg mt-3 fw-bold px-4" onclick="switchPage('front')">立即尋找毛孩</button>
+                    <button class="btn btn-outline-light btn-lg mt-3 fw-bold px-4" onclick="switchPage('volunteer')">加入志工行列</button>
+                </div>
+            </div>
+            <div class="row g-4 text-center mb-5">
+                <div class="col-md-4">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        <div class="fs-1 mb-2">🔍</div>
+                        <h3>1. 線上篩選</h3>
+                        <p class="text-muted">依類別、年齡或體型，彈性尋找契合的毛孩夥伴。</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        <div class="fs-1 mb-2">📅</div>
+                        <h3>2. 預約表單</h3>
+                        <p class="text-muted">填寫基本資料與時間，送出後進行防注入及時效儲存。</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        <div class="fs-1 mb-2">🤝</div>
+                        <h3>3. 審核面談</h3>
+                        <p class="text-muted">志工督導專業一條龍審核，確保毛孩安全適應新家。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 首頁底部的便捷聯繫入口 -->
+            <div class="text-center pt-3 border-top">
+                <p class="text-muted mb-2">有任何系統操作或認養問題嗎？</p>
+                <button class="btn btn-sm btn-outline-secondary" onclick="switchPage('contact')">💬 前往聯繫志工督導團隊</button>
+            </div>
+        </section>
+
+        <!-- 認養與志工招募說明區塊 -->
+        <section id="page-volunteer" class="page-section d-none">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold display-6 text-dark">🐾 平台計畫與招募說明</h2>
+                <p class="text-muted lead">您的參與，能改變一個生命被世界對待的方式</p>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <!-- 左側：認養申請須知 -->
+                <div class="col-lg-6">
+                    <div class="info-card p-4 h-100">
+                        <h3 class="fw-bold text-primary mb-3 pb-2 border-bottom">🏡 流浪動物認養申請須知</h3>
+                        <p class="text-muted">為確保每隻走過風雨的毛孩都能找到攜手一生的家庭，我們建立完善的動態評估流程：</p>
+                        
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="step-badge me-3">1</div>
+                            <div>
+                                <h5 class="fw-bold mb-1">線上挑選與預約</h5>
+                                <p class="text-muted small">於本平台「動物查詢」區塊篩選心儀動物，送出線上互動預約申請。</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="step-badge me-3">2</div>
+                            <div>
+                                <h5 class="fw-bold mb-1">實地到訪與行為互動</h5>
+                                <p class="text-muted small">依約定時間前來收容園區，由志工帶領與毛孩進行 1-on-1 親密互動與個性媒合。</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="step-badge me-3">3</div>
+                            <div>
+                                <h5 class="fw-bold mb-1">環境審核與督導行政面談</h5>
+                                <p class="text-muted small">審查您的飼養環境描述與經驗，由行政管理端確認符合動物福利後簽署認養協議。</p>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning py-2 small mt-4">
+                            <strong>⚠️ 認養人基本條件：</strong> 須年滿 18 歲，攜帶身分證正本，自備提籠、牽繩，並願意配合後續居家追蹤。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：志工招募計畫 -->
+                <div class="col-lg-6">
+                    <div class="info-card p-4 h-100">
+                        <h3 class="fw-bold text-success mb-3 pb-2 border-bottom">🤝 園區志工招募計畫</h3>
+                        <p class="text-muted">收容所的日常運作高度依賴熱血志工夥伴的協助，我們竭誠歡迎您的加入！</p>
+                        
+                        <h5 class="fw-bold text-dark mt-3">💡 服務內容三大領域</h5>
+                        <ul class="text-muted small">
+                            <li><strong>動物照護組：</strong>協助犬隻散步減壓、貓咪社會化減敏訓練、洗澡、基礎梳毛。</li>
+                            <li><strong>環境優化組：</strong>園區籠位高標準清潔消毒、餐具清洗、暖心物資整理。</li>
+                            <li><strong>推廣媒合組：</strong>協助拍攝毛孩沙龍照、撰寫送養動態文案、協助認養活動辦理。</li>
+                        </ul>
+
+                        <h5 class="fw-bold text-dark mt-3">🎁 志工專屬福利</h5>
+                        <p class="text-muted small">提供服務時數證明、定期的專業行為學課程培訓、以及與無數可愛生命建立深厚革命情感的無價體驗！</p>
+
+                        <div class="alert alert-info py-2 small mt-4">
+                            <strong>📝 如何成為志工？</strong> 於「動物查詢與預約」分頁中，挑選您想協助的動物或籠區，在預約目的中選擇<strong>「收容所志工服務」</strong>提交申請即可！
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常見問答 -->
+            <div class="info-card p-4">
+                <h4 class="fw-bold text-dark text-center mb-4">💬 園區常見 Q&A</h4>
+                <div class="row g-3 small">
+                    <div class="col-md-6">
+                        <h6><strong>Q1：預約完成後可以直接帶動物回家嗎？</strong></h6>
+                        <p class="text-muted">不行喔！預約是安排「實地到訪與互動體驗」，現場還需經過志工督導的親自面談與資格核准，確保彼此是最契合的家人。</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><strong>Q2：完全沒有養過寵物也可以當志工嗎？</strong></h6>
+                        <p class="text-muted">非常歡迎！園區會安排資深志工進行一對一帶領，並提供基礎行為安全講習，讓您安全又安心地踏出第一步。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新增：聯繫我們 獨立專區 -->
+        <section id="page-contact" class="page-section d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="info-card p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-primary">📞 聯繫我們</h2>
+                            <p class="text-muted">若您對於線上預約系統、認養審核進度有任何疑問，歡迎隨時與志工督導團隊聯繫：</p>
+                        </div>
+                        
+                        <div class="p-4 bg-light rounded-3 shadow-inner">
+                            <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                                <span class="fs-3 me-3">📍</span>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-secondary">園區地址</h6>
+                                    <p class="mb-0 text-dark fw-medium mt-1">新北市新莊區暖心路 100 號</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                                <span class="fs-3 me-3">📞</span>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-secondary">服務專線</h6>
+                                    <p class="mb-0 text-dark fw-medium mt-1">(02) 2345-6789 <span class="text-muted small fw-normal ms-2">(週一至週日 09:00 - 17:00)</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <span class="fs-3 me-3">📧</span>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-secondary">官方信箱</h6>
+                                    <p class="mb-0 text-primary fw-medium mt-1"><a href="mailto:support@shelter-love-2026.org" style="text-decoration: none;">support@shelter-love-2026.org</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary px-4 fw-bold" onclick="switchPage('front')" style="background-color: var(--primary-color);">🐾 前往預約毛孩互動</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 前台動物查詢與預約區塊 -->
+        <section id="page-front" class="page-section d-none">
+            <h2 class="border-start border-primary border-4 ps-2 mb-4 fw-bold text-dark">動物查詢與預約申請</h2>
+            
+            <div class="card p-4 mb-4 shadow-sm">
+                <form id="filterForm" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="filterType" class="form-label fw-bold">動物類別</label>
+                        <select id="filterType" class="form-select">
+                            <option value="all">全部類別</option>
+                            <option value="貓">貓咪</option>
+                            <option value="狗">汪星人</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterSize" class="form-label fw-bold">體型大小</label>
+                        <select id="filterSize" class="form-select">
+                            <option value="all">全部體型</option>
+                            <option value="小型">小型</option>
+                            <option value="中型">中型</option>
+                            <option value="大型">大型</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterDate" class="form-label fw-bold">預計到訪日期</label>
+                        <input type="date" id="filterDate" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterCount" class="form-label fw-bold">預計到訪人數</label>
+                        <input type="number" id="filterCount" class="form-control" min="1" placeholder="請輸入人數">
+                    </div>
+                </form>
+            </div>
+
+            <div class="row g-4" id="animalContainer"></div>
+        </section>
+
+        <!-- 後台登入區塊 -->
+        <section id="page-back-login" class="page-section d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card shadow">
+                        <div class="card-header text-white text-center py-3" style="background-color: var(--primary-color);">
+                            <h4 class="mb-0">收容所行政端登入</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="alert alert-info py-2 fs-7">
+                                <strong>密碼強度要求：</strong>長度至少6碼，需包含大寫字母、小寫字母、數字、符號 4 項中任選 3 項。<br>
+                                <em>(測試可用範例：Admin@123)</em>
+                            </div>
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label for="loginUser" class="form-label">管理員帳號</label>
+                                    <input type="text" id="loginUser" class="form-control" required value="admin">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPass" class="form-label">密碼</label>
+                                    <input type="password" id="loginPass" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" style="background-color: var(--primary-color);">登入系統</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 後台管理頁面 -->
+        <section id="page-back-manage" class="page-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-dark">收容所志工督導管理後台</h2>
+                <button class="btn btn-danger btn-sm" onclick="logout()">登出後台</button>
+            </div>
+
+            <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#tab-orders">📝 預約申請案審核</button></li>
+                <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-animals">🐾 動物檔案維護 (CRUD)</button></li>
+                <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-today" onclick="renderTodayReport()">📅 今日到訪名冊</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- 預約審核 -->
+                <div class="tab-pane fade show active" id="tab-orders">
+                    <div class="card p-3 mb-3 bg-light border-0">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" id="searchOrderAnimal" class="form-control form-control-sm" placeholder="輸入動物名稱進行即時篩選">
+                            </div>
+                            <div class="col-md-4">
+                                <select id="searchOrderStatus" class="form-select form-select-sm">
+                                    <option value="all">全部審核狀態</option>
+                                    <option value="待審核">待審核</option>
+                                    <option value="核准">核准</option>
+                                    <option value="退回">退回</option>
+                                    <option value="待補件">待補件</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="date" id="searchOrderDate" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive bg-white rounded shadow-sm">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>申請人</th><th>聯絡方式</th><th>預約對象</th><th>日期/時段</th><th>目的/人數</th><th>狀態</th><th>審核控制</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 動物檔案維護 (CRUD) -->
+                <div class="tab-pane fade" id="tab-animals">
+                    <button class="btn btn-success btn-sm mb-3" onclick="prepareAnimalModal('create')">➕ 新增動物檔案</button>
+                    <div class="table-responsive bg-white rounded shadow-sm">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>照片</th><th>名稱</th><th>類別/體型</th><th>容量上限</th><th>年齡/位置</th><th>特質標籤</th><th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="animalTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 今日到訪名冊 -->
+                <div class="tab-pane fade" id="tab-today">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0 text-primary" id="todayDateLabel">今日到訪清單</h4>
+                        <button class="btn btn-outline-primary btn-sm" onclick="exportTodayReport()">📥 一鍵匯出主機 Log 文字檔</button>
+                    </div>
+                    <div class="table-responsive bg-white rounded shadow-sm">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>姓名</th><th>電話</th><th>預約目的</th><th>人數</th><th>互動對象</th><th>時段</th><th>審核狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody id="todayTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 彈出視窗 1：前台預約 Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">線上認養與志工服務預約申請</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <form id="bookingForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="bookAnimalId">
+                        <div class="p-2 mb-3 bg-light rounded text-center fw-bold" id="bookAnimalTarget">預約對象：</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="bookName" class="form-label">申請人姓名 <span class="text-danger">*</span></label>
+                                <input type="text" id="bookName" class="form-control" required placeholder="例如：王小明">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookUnit" class="form-label">單位 / 身份 <span class="text-danger">*</span></label>
+                                <input type="text" id="bookUnit" class="form-control" required placeholder="社會人士 或 學校單位">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" id="bookEmail" class="form-control" required placeholder="abc@example.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookPhone" class="form-label">聯絡手機號碼 <span class="text-danger">*</span></label>
+                                <input type="tel" id="bookPhone" class="form-control" required placeholder="0912345678">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookDate" class="form-label">預約到訪日期 <span class="text-danger">*</span></label>
+                                <input type="date" id="bookDate" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookSlot" class="form-label">預約時段 <span class="text-danger">*</span></label>
+                                <select id="bookSlot" class="form-select" required>
+                                    <option value="上午">上午時段 (09:00 - 12:00)</option>
+                                    <option value="下午">下午時段 (14:00 - 17:00)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookPurpose" class="form-label">預約目的 <span class="text-danger">*</span></label>
+                                <select id="bookPurpose" class="form-select" required>
+                                    <option value="認養互動">認養前互動</option>
+                                    <option value="志工服務">收容所志工服務</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookCount" class="form-label">預計到訪人數 <span class="text-danger">*</span></label>
+                                <input type="number" id="bookCount" class="form-control" min="1" required value="1">
+                            </div>
+                            <div class="col-12">
+                                <label for="bookExperience" class="form-label">居住環境描述與養寵物經驗 <span class="text-danger">*</span></label>
+                                <textarea id="bookExperience" class="form-control" rows="2" required placeholder="請敘述養寵物經驗..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="bookMemo" class="form-label">備註事項</label>
+                                <textarea id="bookMemo" class="form-control" rows="2" placeholder="其他特殊需求說明..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary fw-bold" style="background-color: var(--primary-color);">送出預約申請書</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 彈出視窗 2：後台動物檔案維護 CRUD Modal -->
+    <div class="modal fade" id="animalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title" id="animalModalLabel">新增/修改動物檔案</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <form id="animalForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="crudAction">
+                        <input type="hidden" id="crudId">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="aniName" class="form-label">動物名稱</label>
+                                <input type="text" id="aniName" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aniType" class="form-label">動物類別</label>
+                                <select id="aniType" class="form-select" required>
+                                    <option value="狗">狗</option>
+                                    <option value="貓">貓</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aniSize" class="form-label">體型大小</label>
+                                <select id="aniSize" class="form-select" required>
+                                    <option value="小型">小型</option>
+                                    <option value="中型">中型</option>
+                                    <option value="大型">大型</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aniAge" class="form-label">年齡/品種描述</label>
+                                <input type="text" id="aniAge" class="form-control" placeholder="如: 1歲 / 孟加拉貓" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aniCapacity" class="form-label">籠位容量上限 (人數)</label>
+                                <input type="number" id="aniCapacity" class="form-control" min="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="aniLocation" class="form-label">所在地點 (籠位/區域)</label>
+                                <input type="text" id="aniLocation" class="form-control" placeholder="如: 貓舍區" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="aniTags" class="form-label">特質/設備標籤 (請用半形逗號分隔)</label>
+                                <input type="text" id="aniTags" class="form-control" placeholder="已結紮, 溫馴, 親人">
+                            </div>
+                            <div class="col-12">
+                                <label for="aniImg" class="form-label">圖片網址 (可留空)</label>
+                                <input type="url" id="aniImg" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-success">儲存檔案</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 初始資料
+        const initialAnimals = [
+            { id: "A001", name: "小黑", type: "狗", size: "中型", age: "2歲 米克斯", capacity: 6, location: "犬隻區", tags: ["已結紮", "溫馴", "親人"], img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=400" },
+            { id: "A002", name: "咪咪", type: "貓", size: "小型", age: "1歲 三花貓", capacity: 2, location: "貓舍區", tags: ["親貓", "活潑", "愛撒嬌"], img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=400" },
+            { id: "A003", name: "阿福", type: "狗", size: "大型", age: "4歲 黃金獵犬", capacity: 4, location: "大型犬區", tags: ["體型大", "需大空間"], img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=400" },
+            { id: "A004", name: "Cookie", type: "貓", size: "小型", age: "6個月 美短紋貓", capacity: 6, location: "貓舍區", tags: ["親人", "精力充沛"], img: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=400" },
+            { id: "A005", name: "小白", type: "狗", size: "中型", age: "3歲 台灣白狗", capacity: 4, location: "犬隻區", tags: ["忠心", "警覺心高"], img: "https://images.unsplash.com/photo-1608096299210-db7e38487075?auto=format&fit=crop&q=80&w=400" }
+        ];
+
+        const STORAGE_KEY_ANIMALS = "animal_platform_animals";
+        const STORAGE_KEY_ORDERS = "animal_platform_orders";
+
+        let bookingModalObj = null;
+        let animalModalObj = null;
+
+        function initLocalStorage() {
+            const now = new Date().getTime();
+            if (!localStorage.getItem(STORAGE_KEY_ANIMALS)) {
+                localStorage.setItem(STORAGE_KEY_ANIMALS, JSON.stringify(initialAnimals));
+            }
+            if (!localStorage.getItem(STORAGE_KEY_ORDERS)) {
+                localStorage.setItem(STORAGE_KEY_ORDERS, JSON.stringify([]));
+            }
+            localStorage.setItem("animal_platform_timestamp", now.toString());
+        }
+
+        function getData(key) {
+            return JSON.parse(localStorage.getItem(key));
+        }
+
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function sanitizeInput(str) {
+            if (typeof str !== 'string') return str;
+            return str.replace(/[&<>"']/g, function(match) {
+                const escapeMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' };
+                return escapeMap[match];
+            }).trim();
+        }
+
+        function switchPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.add('d-none'));
+            
+            const activeSec = document.getElementById(`page-${pageId}`);
+            if (activeSec) activeSec.classList.remove('d-none');
+
+            // 更新導覽列高亮
+            const links = document.querySelectorAll('.navbar-nav .nav-link');
+            links.forEach(lnk => lnk.classList.remove('active'));
+            const targetLink = document.getElementById(`nav-${pageId}`);
+            if (targetLink) targetLink.classList.add('active');
+
+            if (pageId === 'front') {
+                renderAnimalCards();
+            } else if (pageId === 'back-manage') {
+                renderOrderTable();
+                renderAnimalTable();
+            }
+        }
+
+        function renderAnimalCards() {
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const typeFilter = document.getElementById('filterType').value;
+            const sizeFilter = document.getElementById('filterSize').value;
+            const countFilter = parseInt(document.getElementById('filterCount').value) || 0;
+
+            const container = document.getElementById('animalContainer');
+            container.innerHTML = "";
+
+            const filteredAnimals = animals.filter(animal => {
+                const matchType = (typeFilter === 'all' || animal.type === typeFilter);
+                const matchSize = (sizeFilter === 'all' || animal.size === sizeFilter);
+                const matchCapacity = (countFilter === 0 || animal.capacity >= countFilter);
+                return matchType && matchSize && matchCapacity;
+            });
+
+            if (filteredAnimals.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center text-muted my-5"><h3>沒有符合條件的寶貝。</h3></div>`;
+                return;
+            }
+
+            filteredAnimals.map(animal => {
+                const tagsHtml = animal.tags.map(t => `<span class="badge bg-secondary me-1">${sanitizeInput(t)}</span>`).join('');
+                const cardCol = document.createElement('div');
+                cardCol.className = "col-md-4 col-sm-6";
+                cardCol.innerHTML = `
+                    <div class="card h-100 card-animal">
+                        <img src="${animal.img}" class="card-img-top" style="height: 220px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title fw-bold">${sanitizeInput(animal.name)}</h4>
+                            <p class="card-text text-muted mb-1 fs-7"><strong>品種年齡：</strong>${sanitizeInput(animal.age)}</p>
+                            <p class="card-text text-muted mb-2 fs-7"><strong>位置：</strong>${sanitizeInput(animal.location)} (安全容量：${animal.capacity}人)</p>
+                            <div class="mb-3">${tagsHtml}</div>
+                            <button class="btn btn-warning mt-auto fw-bold w-100" onclick="openBookingModal('${animal.id}')">預約互動 / 志工服務</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(cardCol);
+            });
+        }
+
+        document.getElementById('filterForm').addEventListener('input', renderAnimalCards);
+
+        function openBookingModal(animalId) {
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const targetAnimal = animals.find(a => a.id === animalId);
+            if (!targetAnimal) return;
+
+            document.getElementById('bookAnimalId').value = targetAnimal.id;
+            document.getElementById('bookAnimalTarget').innerText = `預約互動對象：【${targetAnimal.name}】(${targetAnimal.location})`;
+            
+            if (!bookingModalObj) {
+                bookingModalObj = new bootstrap.Modal(document.getElementById('bookingModal'));
+            }
+            bookingModalObj.show();
+        }
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const currentOrders = getData(STORAGE_KEY_ORDERS);
+            currentOrders.push({
+                orderId: "ORD-" + new Date().getTime(),
+                animalId: document.getElementById('bookAnimalId').value,
+                name: sanitizeInput(document.getElementById('bookName').value),
+                unit: sanitizeInput(document.getElementById('bookUnit').value),
+                email: sanitizeInput(document.getElementById('bookEmail').value),
+                phone: sanitizeInput(document.getElementById('bookPhone').value),
+                date: document.getElementById('bookDate').value,
+                slot: document.getElementById('bookSlot').value,
+                purpose: document.getElementById('bookPurpose').value,
+                count: parseInt(document.getElementById('bookCount').value),
+                status: "待審核"
+            });
+            saveData(STORAGE_KEY_ORDERS, currentOrders);
+
+            if (bookingModalObj) bookingModalObj.hide();
+            document.getElementById('bookingForm').reset();
+            alert("預約申請已成功送出！");
+        });
+
+        // 管理端登入
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            if (user === "admin" && pass === "Admin@123") {
+                alert("登入成功！");
+                switchPage('back-manage');
+            } else {
+                alert("帳號密碼錯誤！(預設: admin / Admin@123)");
+            }
+        });
+
+        function logout() {
+            switchPage('home');
+        }
+
+        function renderOrderTable() {
+            const orders = getData(STORAGE_KEY_ORDERS);
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const tbody = document.getElementById('orderTableBody');
+            tbody.innerHTML = "";
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">查無申請案</td></tr>`;
+                return;
+            }
+
+            orders.map(order => {
+                const targetAnimal = animals.find(a => a.id === order.animalId);
+                const animalName = targetAnimal ? targetAnimal.name : "已下架";
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${sanitizeInput(order.name)}</strong></td>
+                    <td>${sanitizeInput(order.phone)}</td>
+                    <td><span class="badge bg-dark">${sanitizeInput(animalName)}</span></td>
+                    <td>${order.date}</td>
+                    <td>${order.purpose}</td>
+                    <td><span class="badge bg-warning text-dark">${order.status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-success" onclick="changeOrderStatus('${order.orderId}', '核准')">核准</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function changeOrderStatus(orderId, newStatus) {
+            const orders = getData(STORAGE_KEY_ORDERS);
+            const idx = orders.findIndex(o => o.orderId === orderId);
+            if (idx !== -1) {
+                orders[idx].status = newStatus;
+                saveData(STORAGE_KEY_ORDERS, orders);
+                renderOrderTable();
+            }
+        }
+
+        function renderAnimalTable() {
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const tbody = document.getElementById('animalTableBody');
+            tbody.innerHTML = "";
+
+            animals.map(animal => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${animal.img}" class="rounded" style="width:50px; height:50px; object-fit:cover;"></td>
+                    <td class="fw-bold">${sanitizeInput(animal.name)}</td>
+                    <td>${animal.type}</td>
+                    <td>${animal.capacity}人</td>
+                    <td>${sanitizeInput(animal.location)}</td>
+                    <td>${animal.tags.join(', ')}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="openEditAnimalModal('${animal.id}')">修改</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteAnimal('${animal.id}')">刪除</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function prepareAnimalModal(action, id = "") {
+            document.getElementById('animalForm').reset();
+            document.getElementById('crudAction').value = action;
+            document.getElementById('crudId').value = id;
+            
+            if (action === 'create') {
+                document.getElementById('animalModalLabel').innerText = "➕ 新增待認養動物檔案";
+            }
+            
+            if (!animalModalObj) {
+                animalModalObj = new bootstrap.Modal(document.getElementById('animalModal'));
+            }
+            animalModalObj.show();
+        }
+
+        function openEditAnimalModal(id) {
+            prepareAnimalModal('update', id);
+            document.getElementById('animalModalLabel').innerText = "✏️ 修改現有動物檔案";
+            
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const animal = animals.find(a => a.id === id);
+            if (animal) {
+                document.getElementById('aniName').value = animal.name;
+                document.getElementById('aniType').value = animal.type;
+                document.getElementById('aniSize').value = animal.size;
+                document.getElementById('aniAge').value = animal.age;
+                document.getElementById('aniCapacity').value = animal.capacity;
+                document.getElementById('aniLocation').value = animal.location;
+                document.getElementById('aniTags').value = animal.tags.join(', ');
+                document.getElementById('aniImg').value = animal.img;
+            }
+        }
+
+        document.getElementById('animalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const action = document.getElementById('crudAction').value;
+            const id = document.getElementById('crudId').value;
+
+            const name = sanitizeInput(document.getElementById('aniName').value);
+            const type = document.getElementById('aniType').value;
+            const size = document.getElementById('aniSize').value;
+            const age = sanitizeInput(document.getElementById('aniAge').value);
+            const capacity = parseInt(document.getElementById('aniCapacity').value);
+            const location = sanitizeInput(document.getElementById('aniLocation').value);
+            const tagsInput = document.getElementById('aniTags').value;
+            const tags = tagsInput.split(',').map(t => sanitizeInput(t.trim())).filter(t => t.length > 0);
+            let img = document.getElementById('aniImg').value.trim();
+            if(!img) img = "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=400";
+
+            let animals = getData(STORAGE_KEY_ANIMALS);
+
+            if (action === 'create') {
+                animals.push({ id: "ANI-" + new Date().getTime(), name, type, size, age, capacity, location, tags, img });
+                alert(`【${name}】新增成功！`);
+            } else if (action === 'update') {
+                const idx = animals.findIndex(a => a.id === id);
+                if (idx !== -1) {
+                    animals[idx] = { ...animals[idx], name, type, size, age, capacity, location, tags, img };
+                    alert(`【${name}】修改成功！`);
+                }
+            }
+
+            saveData(STORAGE_KEY_ANIMALS, animals);
+            
+            if (animalModalObj) {
+                animalModalObj.hide();
+            }
+            renderAnimalTable();
+        });
+
+        function deleteAnimal(id) {
+            if (confirm("確定要刪除嗎？")) {
+                let animals = getData(STORAGE_KEY_ANIMALS);
+                animals = animals.filter(a => a.id !== id);
+                saveData(STORAGE_KEY_ANIMALS, animals);
+                renderAnimalTable();
+            }
+        }
+
+        function renderTodayReport() {
+            const orders = getData(STORAGE_KEY_ORDERS);
+            const animals = getData(STORAGE_KEY_ANIMALS);
+            const tbody = document.getElementById('todayTableBody');
+            tbody.innerHTML = "";
+            orders.map(order => {
+                const targetAnimal = animals.find(a => a.id === order.animalId);
+                const animalName = targetAnimal ? targetAnimal.name : "已下架";
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${sanitizeInput(order.name)}</td><td>${sanitizeInput(order.phone)}</td><td>${order.purpose}</td><td>${order.count}</td><td>${sanitizeInput(animalName)}</td><td>${order.slot}</td><td>${order.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportTodayReport() {
+            alert("報告已模擬產出成功！");
+        }
+
+        window.onload = function() {
+            initLocalStorage();
+            switchPage('home');
+        };
+    </script>
+</body>
+</html>
